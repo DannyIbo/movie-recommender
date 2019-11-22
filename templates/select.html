@@ -5,56 +5,18 @@
     <title>Select movies</title>
   </head>
   <body>
-
-    <p>0</p>
-    {% for x in guesses_list %}
-      {{x[0]}}
-    {% endfor %}
-
-    <p>1</p>
-    {% for x in guesses_list %}
-      {{x[1]}}
-    {% endfor %}
-
-    <p>2</p>
-
-    {% for x in guesses_list %}
-      {{x[2]}}
-    {% endfor %}
-
-    <p>3</p>
-    {% for x in guesses_list %}
-      {{x[3]}}
-    {% endfor %}
-
-
-    <form action="select.htm">
-    <p>Ihre Pizza-Bestellung:</p>
-    <p>
+    <form action="/recommend">
+    <h1>Please select your movies from the results</h1>
 
     {% for guess in guesses_list %}
       <p>Your movie search for "{{ guess[1] }}"</p>
       <p><select name="{{ guess[0] }}" size="5">
       {% for element in guess[3] %}
-        <option value="{{ element[2], guess[2] }}">{{ element[0] }}</option>
+        <option value="{{ element[0] }}">{{ element[0] }}</option>
       {% endfor %}
       </select></p>
-    {%  endfor %}
-
-
-    <select name="Pizza" size="5"
-    onchange="alert(this.form.Pizza.options[this.form.Pizza.selectedIndex].value)">
-    <option value="P101">Pizza Napoli</option>
-    <option value="P102">Pizza Funghi</option>
-    <option value="P103">Pizza Mare</option>
-    <option value="P104">Pizza Tonno</option>
-    <option value="P105">Pizza Mexicana</option>
-    <option value="P106">Pizza Regina</option>
-    <option value="P107">Pizza de la Casa</option>
-    <option value="P108">Pizza Calzone</option>
-    <option value="P109">Pizza con tutti</option>
-    </select>
-    </p>
+    {% endfor %}
+    <input type="submit" value="Get recommendations">
     </form>
 
   </body>

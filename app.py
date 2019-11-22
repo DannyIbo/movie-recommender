@@ -1,9 +1,24 @@
 from flask import Flask, render_template, request
-from src.modules import create_engine_load_data, setup_nmf, process_user_input
-
-engine, df_data = create_engine_load_data()
+import os
+from src.modules import (
+    create_engine_load_data,
+    setup_nmf,
+    process_user_input,
+    recommend_movies,
+    youtubeAPIkey,
+    get_yt_videos
+)
 
 app = Flask(__name__)
+
+YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
+
+engine, all_ratings = create_engine_load_data()
+NMF_Model, genre_movie_matrix, user_movie_id_ratings_matrix = setup_nmf(
+    all_ratings=all_ratings,
+    engine=engine,
+    number_of_genres = 10
+)
 
 @app.route('/')
 @app.route('/home')
@@ -11,29 +26,41 @@ def home():
     return render_template('index.html')
 
 @app.route('/select')
-def select(df_data=df_data):
+def select():
     user_input = request.args.items()
-    # user_input = result_dictionary.values()
 
     guesses_list = []
     for ui in user_input:
-        print(len(ui[1]))
         if ui[1]:
-            guesses = process_user_input(ui, df_data)
+            guesses = process_user_input(user_input=ui, all_ratings=all_ratings)
             guesses_list.append(guesses)
-            print(guesses)
 
     return render_template(
         'select.html',
         guesses_list=guesses_list,
         user_input=user_input
-        # result_dictionary=result_dictionary
     )
 
-@app.route('/test')
-def test():
-    language = request.args.get('language')
-    return f'{language}'
+@app.route('/recommend')
+def recommend():
+    user_movie_title_list = request.args.values()
+    recom_movie_titles = recommend_movies(
+        all_ratings=all_ratings,
+        user_movie_title_list=user_movie_title_list,
+        user_movie_id_ratings_matrix=user_movie_id_ratings_matrix,
+        genre_movie_matrix=genre_movie_matrix,
+        NMF_Model=NMF_Model,
+        engine=engine,
+        number_of_recommendations=5
+    )
+    youtube = youtubeAPIkey(YOUTUBE_API_KEY)
+    yt_results = get_yt_videos(youtube, titles=recom_movie_titles)
+
+    return render_template(
+        'recommend.html',
+        recom_movie_titles=recom_movie_titles,
+        yt_results=yt_results
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
