@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Select movies</title>
+  </head>
+  <body>
+    <p>Object</p>
+    <p>{{result_dictionary}}</p>
+    {% for x in result_dictionary %}
+      {{x}}
+    {% endfor %}
+
+    <p>Keys</p>
+    <p>{{result_dictionary.keys()}}</p>
+    {% for k in result_dictionary.keys()%}
+      {{k}}
+    {% endfor %}
+
+    <p>Values</p>
+    <p>{{result_dictionary.values()}}</p>
+    {% for v in result_dictionary.values()%}
+      {{v}}
+    {% endfor %}
+
+    <p>Items</p>
+    <p>{{result_dictionary.keys()}}</p>
+    {% for k, v in result_dictionary.items()%}
+      {{k, v}}
+    {% endfor %}
+
+
+    <form action="select.htm">
+      {% for guesses, df_guess in guesses_list %}
+      <p><select name="Pizza" size="5">
+        {% for guess in guesses %}
+        <option value="{{guess[2]}}">{{guess[0]}}</option>
+
+        {% endfor %}
+      </select></p>
+      {% endfor %}
+    </form>
+    <form action="select.htm">
+    <p>Ihre Pizza-Bestellung:</p>
+    <p>
+    <select name="Pizza" size="5"
+    onchange="alert(this.form.Pizza.options[this.form.Pizza.selectedIndex].value)">
+    <option value="P101">Pizza Napoli</option>
+    <option value="P102">Pizza Funghi</option>
+    <option value="P103">Pizza Mare</option>
+    <option value="P104">Pizza Tonno</option>
+    <option value="P105">Pizza Mexicana</option>
+    <option value="P106">Pizza Regina</option>
+    <option value="P107">Pizza de la Casa</option>
+    <option value="P108">Pizza Calzone</option>
+    <option value="P109">Pizza con tutti</option>
+    </select>
+    </p>
+    </form>
+
+  </body>
+</html>
