@@ -12,14 +12,13 @@ def home():
 
 @app.route('/select')
 def select(df_data=df_data):
-    result_dictionary = request.args#.items()
-    user_input = result_dictionary.values()
+    user_input = request.args.items()
+    # user_input = result_dictionary.values()
 
     guesses_list = []
     for ui in user_input:
-        print(len(ui))
-        if len(ui) > 0:
-
+        print(len(ui[1]))
+        if ui[1]:
             guesses = process_user_input(ui, df_data)
             guesses_list.append(guesses)
             print(guesses)
@@ -27,7 +26,8 @@ def select(df_data=df_data):
     return render_template(
         'select.html',
         guesses_list=guesses_list,
-        result_dictionary=result_dictionary
+        user_input=user_input
+        # result_dictionary=result_dictionary
     )
 
 @app.route('/test')

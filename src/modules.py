@@ -50,9 +50,12 @@ def setup_nmf(engine, number_of_genres = 10):
 
 def process_user_input(user_input, df_data):
     '''Return a tuple with title, scoring and index for df_data.'''
+    # Extract tuple
+    user_input_key = user_input[0]
+    user_input_value = user_input[1]
     # Pre-select movies from database. Select everything that contains the first 3 letters capitalized of user input
-    df_guess = df_data[df_data['title'].str.contains(user_input[:3].lower().capitalize())].groupby('title').first().reset_index()
+    df_guess = df_data[df_data['title'].str.contains(user_input_value[:3].lower().capitalize())].groupby('title').first().reset_index()
     # Get ordered list of the five most similar movie titles to user input. Return a tuple of title, match score and index.
-    guesses = process.extract(user_input, df_guess['title'])
+    guesses = process.extract(user_input_value, df_guess['title'])
 
-    return guesses, df_guess
+    return user_input_key, user_input_value, df_guess, guesses

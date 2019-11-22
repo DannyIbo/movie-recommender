@@ -5,44 +5,43 @@
     <title>Select movies</title>
   </head>
   <body>
-    <p>Object</p>
-    <p>{{result_dictionary}}</p>
-    {% for x in result_dictionary %}
-      {{x}}
+
+    <p>0</p>
+    {% for x in guesses_list %}
+      {{x[0]}}
     {% endfor %}
 
-    <p>Keys</p>
-    <p>{{result_dictionary.keys()}}</p>
-    {% for k in result_dictionary.keys()%}
-      {{k}}
+    <p>1</p>
+    {% for x in guesses_list %}
+      {{x[1]}}
     {% endfor %}
 
-    <p>Values</p>
-    <p>{{result_dictionary.values()}}</p>
-    {% for v in result_dictionary.values()%}
-      {{v}}
+    <p>2</p>
+
+    {% for x in guesses_list %}
+      {{x[2]}}
     {% endfor %}
 
-    <p>Items</p>
-    <p>{{result_dictionary.keys()}}</p>
-    {% for k, v in result_dictionary.items()%}
-      {{k, v}}
+    <p>3</p>
+    {% for x in guesses_list %}
+      {{x[3]}}
     {% endfor %}
 
 
-    <form action="select.htm">
-      {% for guesses, df_guess in guesses_list %}
-      <p><select name="Pizza" size="5">
-        {% for guess in guesses %}
-        <option value="{{guess[2]}}">{{guess[0]}}</option>
-
-        {% endfor %}
-      </select></p>
-      {% endfor %}
-    </form>
     <form action="select.htm">
     <p>Ihre Pizza-Bestellung:</p>
     <p>
+
+    {% for guess in guesses_list %}
+      <p>Your movie search for "{{ guess[1] }}"</p>
+      <p><select name="{{ guess[0] }}" size="5">
+      {% for element in guess[3] %}
+        <option value="{{ element[2], guess[2] }}">{{ element[0] }}</option>
+      {% endfor %}
+      </select></p>
+    {%  endfor %}
+
+
     <select name="Pizza" size="5"
     onchange="alert(this.form.Pizza.options[this.form.Pizza.selectedIndex].value)">
     <option value="P101">Pizza Napoli</option>
