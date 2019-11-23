@@ -11,7 +11,8 @@ from src.modules import (
 
 app = Flask(__name__)
 
-YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
+YOUTUBE_API_KEY = ""
+# YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
 engine, all_ratings = create_engine_load_data()
 NMF_Model, genre_movie_matrix, user_movie_id_ratings_matrix = setup_nmf(
@@ -53,12 +54,20 @@ def recommend():
         engine=engine,
         number_of_recommendations=5
     )
-    youtube = youtubeAPIkey(YOUTUBE_API_KEY)
-    yt_results = get_yt_videos(youtube, titles=recom_movie_titles)
 
+    yt_results = ""
+    if YOUTUBE_API_KEY:
+        youtube = youtubeAPIkey(YOUTUBE_API_KEY)
+        yt_results = get_yt_videos(youtube, titles=recom_movie_titles)
+    else:
+        yt_results = []
+        for r in recom_movie_titles:
+            dict = {}
+            dict['recommendation'] = r
+            yt_results.append(dict)
+            
     return render_template(
         'recommend.html',
-        recom_movie_titles=recom_movie_titles,
         yt_results=yt_results
     )
 
