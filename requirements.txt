@@ -1,7 +1,6 @@
 python-Levenshtein
 flask
 sqlalchemy
-os
 pandas
 sklearn
 fuzzywuzzy
