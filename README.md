@@ -2,6 +2,8 @@
 At a glance:
 A movie recommending system running in flask. 
 
+Running version online: https://movie-recommender-dannyibo.herokuapp.com/
+
 Functionality:
 User can type in movies and get by default 5 recommendations for similar movies they most likely like. 
 
