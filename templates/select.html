@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Select movies</title>
-  </head>
-  <body>
+{% extends "layout.html" %}
+{% block content %}
+
     <form action="/recommend">
     <h1>Please select your movies from the results</h1>
 
@@ -19,5 +15,4 @@
     <input type="submit" value="Get recommendations">
     </form>
 
-  </body>
-</html>
+{% endblock content %}

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+{% extends "layout.html" %}
+{% block content %}
+
     <h1>Your Recommendations:</h1>
 
     {% for yt in yt_results %}
@@ -13,5 +9,5 @@
         <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ yt['video_id'] }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </p>
     {% endfor %}
-  </body>
-</html>
+
+{% endblock content %}

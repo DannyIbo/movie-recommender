@@ -9,16 +9,16 @@ from src.modules import (
     get_yt_videos
 )
 
-app = Flask(__name__)
-
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
 engine, all_ratings = create_engine_load_data()
 NMF_Model, genre_movie_matrix, user_movie_id_ratings_matrix = setup_nmf(
-    all_ratings=all_ratings,
-    engine=engine,
-    number_of_genres = 10
+all_ratings=all_ratings,
+engine=engine,
+number_of_genres = 10
 )
+
+app = Flask(__name__)
 
 @app.route('/')
 @app.route('/home')
@@ -51,7 +51,7 @@ def recommend():
         genre_movie_matrix=genre_movie_matrix,
         NMF_Model=NMF_Model,
         engine=engine,
-        number_of_recommendations=5
+        number_of_recommendations=3
     )
 
     yt_results = ""
@@ -71,4 +71,4 @@ def recommend():
     )
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=3000, debug=True)
