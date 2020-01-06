@@ -19,14 +19,14 @@ number_of_genres = 10
 )
 
 app = Flask(__name__)
-app.config["APPLICATION_ROOT"] = "/flask"
+# app.config["APPLICATION_ROOT"] = "/flask"
 
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('index.html')
 
-@app.route('/select')
+@app.route('/flask/select')
 def select():
     user_input = request.args.items()
 
