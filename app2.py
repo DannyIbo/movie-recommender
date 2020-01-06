@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import os
 from src.modules import (
     create_engine_load_data,
@@ -8,6 +8,20 @@ from src.modules import (
     youtubeAPIkey,
     get_yt_videos
 )
+
+class PrefixMiddleware(object):
+    def __init__(self, app, prefix=''):
+        self.app = app
+        self.prefix = prefix
+
+    def __call__(self, environ, start_response):
+        if environ['PATH_INFO'].startswith(self.prefix):
+            environ['PATH_INFO'] = environ['PATH_INFO'][len(self.prefix):]
+            environ['SCRIPT_NAME'] = self.prefix
+            return self.app(environ, start_response)
+        else:
+            start_response('404', [('Content-Type', 'text/plain')])
+            return ["This url does not belong to the app.".encode()]
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
@@ -20,13 +34,15 @@ number_of_genres = 10
 
 app = Flask(__name__)
 # app.config["APPLICATION_ROOT"] = "/flask"
+app.debug = True
+app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/flask')
 
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('index.html')
 
-@app.route('/flask/select')
+@app.route('/select')
 def select():
     user_input = request.args.items()
 
@@ -72,4 +88,4 @@ def recommend():
     )
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(port=5000, debug=True)
